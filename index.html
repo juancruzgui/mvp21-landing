@@ -26,7 +26,8 @@
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/></noscript>
 <script>
       tailwind.config = {
         darkMode: "class",
@@ -93,6 +94,14 @@
 </script>
 <style>
       html { scroll-behavior: smooth; }
+      .material-symbols-outlined {
+        font-size: 0;
+        visibility: hidden;
+      }
+      .fonts-loaded .material-symbols-outlined {
+        font-size: inherit;
+        visibility: visible;
+      }
       body { font-family: 'Inter', sans-serif; }
       .glass-card {
         background: rgba(45, 52, 73, 0.6);
@@ -125,6 +134,7 @@
 <div class="text-2xl font-extrabold tracking-tighter text-violet-400 dark:text-violet-300">MVP21</div>
 <!-- Desktop nav -->
 <div class="hidden md:flex items-center gap-8">
+<a class="nav-link font-inter text-sm font-medium tracking-tight text-slate-300 hover:text-violet-300 transition-colors pb-1" href="#top" data-section="top">Inicio</a>
 <a class="nav-link font-inter text-sm font-medium tracking-tight text-slate-300 hover:text-violet-300 transition-colors pb-1" href="#proceso" data-section="proceso">Metodologia</a>
 <a class="nav-link font-inter text-sm font-medium tracking-tight text-slate-300 hover:text-violet-300 transition-colors pb-1" href="#tipos" data-section="tipos">Tipos</a>
 <a class="nav-link font-inter text-sm font-medium tracking-tight text-slate-300 hover:text-violet-300 transition-colors pb-1" href="#pricing" data-section="pricing">Precios</a>
@@ -142,6 +152,7 @@
 <!-- Mobile menu -->
 <div id="mobile-menu" class="hidden md:hidden bg-[#131b2e] border-t border-outline-variant/20 px-8 pb-6">
 <div class="flex flex-col gap-4 pt-4">
+<a class="text-sm font-medium text-slate-300" href="#top" onclick="closeMobileMenu()">Inicio</a>
 <a class="text-sm font-medium text-slate-300" href="#proceso" onclick="closeMobileMenu()">Metodologia</a>
 <a class="text-sm font-medium text-slate-300" href="#tipos" onclick="closeMobileMenu()">Tipos</a>
 <a class="text-sm font-medium text-slate-300" href="#pricing" onclick="closeMobileMenu()">Precios</a>
@@ -154,7 +165,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+<section class="relative min-h-screen flex items-center pt-24 overflow-hidden" id="top">
 <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary-container/20 rounded-full blur-[120px]"></div>
 <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary-container/10 rounded-full blur-[120px]"></div>
 <div class="max-w-7xl mx-auto px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -670,6 +681,9 @@ Si, trabajamos 100% remoto con clientes de toda Latinoamerica y el mundo. Nuestr
 
 <!-- Scripts -->
 <script>
+// Detect icon font loaded
+document.fonts.ready.then(() => document.body.classList.add('fonts-loaded'));
+
 // Dynamic copyright year
 document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -691,7 +705,7 @@ function closeMobileMenu() {
 
 // Active nav highlight on scroll
 const navLinks = document.querySelectorAll('.nav-link');
-const sections = document.querySelectorAll('#proceso, #tipos, #pricing, #faq');
+const sections = document.querySelectorAll('#top, #proceso, #tipos, #pricing, #faq');
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
